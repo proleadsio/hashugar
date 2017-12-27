@@ -43,6 +43,38 @@ class Hashugar
     end
   end
 
+  def collect(&block)
+    @table_with_original_keys.collect(&block)
+  end
+  
+  def select(&block)
+    @table_with_original_keys.select(&block)
+  end
+
+  def reject(&block)
+    @table_with_original_keys.reject(&block)
+  end
+  
+  def any?(&block)
+    @table_with_original_keys.any?(&block)
+  end
+  
+  def keys
+    @table_with_original_keys.keys
+  end
+
+  def values
+    @table_with_original_keys.values
+  end
+  
+  def length
+    @table_with_original_keys.length
+  end
+  
+  def invert
+    @table_with_original_keys.invert
+  end
+
   def empty?
     @table.empty?
   end
