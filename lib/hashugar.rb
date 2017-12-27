@@ -43,6 +43,13 @@ class Hashugar
     end
   end
 
+  def to_hashugar_hash
+    hash = @table_with_original_keys.to_hash
+    hash.each do |key, value|
+      hash[key] = value.to_hash if value.is_a?(Hashugar)
+    end
+  end
+
   def collect(&block)
     @table_with_original_keys.collect(&block)
   end
@@ -90,8 +97,8 @@ class Hash
     Hashugar.new(self)
   end
 
-  def to_hash
-    self.to_hash
+  def to_hashugar_hash
+    Hashugar.new(self).to_hashugar_hash
   end
 end
 
@@ -100,8 +107,8 @@ class Array
     map(&:to_hashugar)
   end
 
-  def to_hash
-    Array.new(collect(&:to_hash))
+  def to_hashugar_hash
+    Array.new(collect(&:to_hashugar_hash))
   end
 end
 
@@ -110,7 +117,7 @@ class Object
     self
   end
 
-  def to_hash
+  def to_hashugar_hash
     self
   end
 end
