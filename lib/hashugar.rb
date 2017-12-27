@@ -89,16 +89,28 @@ class Hash
   def to_hashugar
     Hashugar.new(self)
   end
+
+  def to_hash
+    self.to_hash
+  end
 end
 
 class Array
   def to_hashugar
     map(&:to_hashugar)
   end
+
+  def to_hash
+    Array.new(collect(&:to_hash))
+  end
 end
 
 class Object
   def to_hashugar
+    self
+  end
+
+  def to_hash
     self
   end
 end
