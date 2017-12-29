@@ -55,9 +55,9 @@ class Hashugar
   #
   # @return [Hash] Standard Ruby Hash from deep conversion of Hashugar struct.
   #
-  def to_h
+  def to_hashugar_hash
     @table.reduce({}) do |hash, (key, value)|
-      hash[key] = value.to_h
+      hash[key] = value.to_hashugar_hash
       hash
     end
   end
@@ -117,7 +117,7 @@ class Hash
     Hashugar.new(self)
   end
 
-  def to_h
+  def to_hashugar_hash
     self.to_hash
   end
 end
@@ -128,13 +128,13 @@ class Array
     Array.new(collect(&:to_hashugar))
   end
 
-  def to_h
-    Array.new(collect(&:to_h))
+  def to_hashugar_hash
+    Array.new(collect(&:to_hashugar_hash))
   end
 end
 
 class String
-  def to_h
+  def to_hashugar_hash
     self
   end
 end
@@ -144,7 +144,7 @@ class Object
     self
   end
 
-  def to_h
+  def to_hashugar_hash
     self
   end
 end
