@@ -1,6 +1,9 @@
 require "hashugar/version"
 
 class Hashugar
+  attr_reader :table
+  attr_reader :table_with_original_keys
+  
   def initialize(hash)
     @table = {}
     @table_with_original_keys = {}
