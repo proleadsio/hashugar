@@ -1,9 +1,6 @@
 require "hashugar/version"
 
 class Hashugar
-  attr_reader :table
-  attr_reader :table_with_original_keys
-  
   def initialize(hash)
     @table = {}
     @table_with_original_keys = {}
@@ -89,6 +86,14 @@ class Hashugar
     @table.empty?
   end
 
+  def get_table
+    @table
+  end
+
+  def get_table_with_original_keys
+    @table_with_original_keys
+  end
+  
   private
   def stringify(key)
     key.is_a?(Symbol) ? key.to_s : key
