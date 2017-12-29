@@ -36,17 +36,29 @@ class Hashugar
     @table_with_original_keys.each(&block)
   end
 
-  def to_hash
-    hash = @table_with_original_keys.to_hash
-    hash.each do |key, value|
-      hash[key] = value.to_hash if value.is_a?(Hashugar)
-    end
-  end
+  #def to_hash
+  #  hash = @table_with_original_keys.to_hash
+  #  hash.each do |key, value|
+  #    hash[key] = value.to_hash if value.is_a?(Hashugar)
+  #  end
+  #end
 
-  def to_hashugar_hash
-    hash = @table_with_original_keys.to_hash
-    hash.each do |key, value|
-      hash[key] = value.to_hash if value.is_a?(Hashugar)
+  #def to_hashugar_hash
+  #  hash = @table_with_original_keys.to_hash
+  #  hash.each do |key, value|
+  #    hash[key] = value.to_hash if value.is_a?(Hashugar)
+  #  end
+  #end
+
+  # This method (obviously) converts a Hashugar struct back to a Hash.
+  # NOTE: ENV already implements 'to_hash', necessitating an alternate method name.
+  #
+  # @return [Hash] Standard Ruby Hash from deep conversion of Hashugar struct.
+  #
+  def to_h
+    @table.reduce({}) do |hash, (key, value)|
+      hash[key] = value.to_h
+      hash
     end
   end
 
@@ -93,7 +105,7 @@ class Hashugar
   def get_table_with_original_keys
     @table_with_original_keys
   end
-  
+
   private
   def stringify(key)
     key.is_a?(Symbol) ? key.to_s : key
@@ -105,18 +117,25 @@ class Hash
     Hashugar.new(self)
   end
 
-  def to_hashugar_hash
-    Hashugar.new(self).to_hashugar_hash
+  def to_h
+    self.to_hash
   end
 end
 
 class Array
   def to_hashugar
-    map(&:to_hashugar)
+    # TODO lazy?
+    Array.new(collect(&:to_hashugar))
   end
 
-  def to_hashugar_hash
-    Array.new(collect(&:to_hashugar_hash))
+  def to_h
+    Array.new(collect(&:to_h))
+  end
+end
+
+class String
+  def to_h
+    self
   end
 end
 
@@ -125,7 +144,7 @@ class Object
     self
   end
 
-  def to_hashugar_hash
+  def to_h
     self
   end
 end
